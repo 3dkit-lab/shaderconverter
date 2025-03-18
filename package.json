@@ -30,6 +30,9 @@
     "vitest": "^3.0.9"
   },
   "lint-staged": {
-    "**/*": "prettier --write ."
+    "src/*.{js,ts}": [
+      "prettier --write", 
+      "vitest related"
+    ]
   }
 }
