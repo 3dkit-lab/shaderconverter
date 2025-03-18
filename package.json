@@ -31,8 +31,11 @@
   },
   "lint-staged": {
     "src/*.{js,ts}": [
-      "prettier --write", 
+      "prettier --write",
       "vitest related"
     ]
+  },
+  "dependencies": {
+    "handlebars": "^4.7.8"
   }
 }
