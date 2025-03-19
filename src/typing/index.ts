@@ -7,7 +7,7 @@ type renderpassType =
     | "sound"
     | "cubemap";
 
-export interface shadertoyResponse {
+export interface shadertoy {
     ver: string;
     info: info;
     renderpass: renderpass[];
@@ -46,8 +46,16 @@ export interface input {
     previewfilepath: string;
     published: number;
     sampler: sampler;
-    type: renderpassType;
+    type: inputType;
 }
+
+type inputType =
+    | "texture"
+    | "volume"
+    | "buffer"
+    | "cubemap"
+    | "video"
+    | "music";
 
 export interface output {
     id: string;
@@ -62,8 +70,12 @@ interface sampler {
     internal: string;
 }
 
-export interface shaderOptions {
+export interface shader {
     name: string;
-    renderpass: renderpass[];
+    data: renderpassData;
     multipass: boolean;
+}
+
+export interface renderpassData {
+    [key: string]: renderpass;
 }

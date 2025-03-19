@@ -6,13 +6,13 @@ import eslintConfigPrettier from "eslint-config-prettier/flat";
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
-  eslintConfigPrettier,
-  { files: ["**/*.{js,mjs,cjs,ts}"] },
-  {
-    ignores: ["**/dist", "**/*.d.ts"],
-  },
-  { languageOptions: { globals: { ...globals.browser, ...globals.node } } },
-  pluginJs.configs.recommended,
-  eslintPluginPrettierRecommended,
-  ...tseslint.configs.recommended,
+    eslintConfigPrettier,
+    { files: ["**/*.{js,mjs,cjs,ts}"] },
+    {
+        ignores: ["**/dist", "**/*.d.ts"],
+    },
+    { languageOptions: { globals: { ...globals.browser, ...globals.node } } },
+    pluginJs.configs.recommended,
+    eslintPluginPrettierRecommended,
+    ...tseslint.configs.recommended,
 ];

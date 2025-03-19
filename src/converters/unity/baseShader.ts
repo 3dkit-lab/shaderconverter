@@ -20,17 +20,16 @@ export const UnityBaseShader = `Shader "ShaderConverter/{{name}}"
 	#include "UnityCG.cginc"
 
 	struct VertexInput {
-    float4 vertex : POSITION;
-	float2 uv:TEXCOORD0;
-    float4 tangent : TANGENT;
-    float3 normal : NORMAL;
+		float4 vertex : POSITION;
+		float2 uv:TEXCOORD0;
+		float4 tangent : TANGENT;
+		float3 normal : NORMAL;
 	};
 
 
 	struct VertexOutput {
 	float4 pos : SV_POSITION;
 	float2 uv:TEXCOORD0;
-	//VertexOutput
 	};
 
 	{{variables}}
@@ -41,15 +40,16 @@ export const UnityBaseShader = `Shader "ShaderConverter/{{name}}"
 
 	VertexOutput vert (VertexInput v)
 	{
-	VertexOutput o;
-	o.pos = UnityObjectToClipPos (v.vertex);
-	o.uv = v.uv;
-	//VertexFactory
-	return o;
+		VertexOutput o;
+		o.pos = UnityObjectToClipPos (v.vertex);
+		o.uv = v.uv;
+		//VertexFactory
+		return o;
 	}
+
 	fixed4 frag(VertexOutput i) : SV_Target
 	{
-	{{mainImage}}
+		{{mainImage}}
 	}
 	ENDCG
 	}

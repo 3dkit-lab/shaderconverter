@@ -1,5 +1,7 @@
 import Handlebars from "handlebars";
 import { UnityBaseShader } from "./baseShader";
+import { shader } from "@/typing";
+import { useCommentProtector } from "@/utils";
 
 enum types {
     Texture,
@@ -9,10 +11,20 @@ enum types {
     Color,
 }
 
-export const toUnityShader = (name: string, shader: string) => {
+export const toUnityShader = (name: string, shader: shader) => {
+    const { protectComments, restoreComments } = useCommentProtector();
+    const { data } = shader;
+    const { image, common } = data;
+    let { code: glsl } = image;
+    if (common) {
+        const { code: commonGlsl } = common;
+        glsl = commonGlsl + glsl;
+    }
+    glsl = protectComments(glsl);
     const template = Handlebars.compile(UnityBaseShader, { noEscape: true });
-    const { properties, variables, functions, mainImage } = parseShader(shader);
-    return template({ name, properties, functions, mainImage, variables });
+    const { properties, variables, functions, mainImage } = parseShader(glsl);
+    glsl = template({ name, properties, functions, mainImage, variables });
+    return restoreComments(glsl);
 };
 
 const parseShader = (shader: string) => {
@@ -145,7 +157,7 @@ const updateTemplate = (text: string) => {
             "mat3": "fixed3x3",
             "mat4": "fixed4x4",
             "mod": "fmod",
-            "for\\(": "[unroll(100)]\nfor(",
+            // "for\\(": "[unroll(100)]\nfor(",
             "iTime": "_Time.y",
             "(tex2Dlod\\()([^,]+\\,)([^)]+\\)?[)]+.+(?=\\)))":
                 "$1$2float4($3,0)",
