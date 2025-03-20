@@ -22,14 +22,7 @@ export const parseshadertoy = (res: shadertoy): shader => {
 export const parseRenderpass = (renderpasses: renderpass[]) => {
     const renderpass = Object.create({});
     const exportRenderpass = Object.create({});
-    let image,
-        bufferA,
-        bufferB,
-        bufferC,
-        bufferD,
-        common,
-        sound,
-        cubemap;
+    let image, bufferA, bufferB, bufferC, bufferD, common, sound, cubemap;
     const fileList = Object.create({});
     for (let i = 0; i < renderpasses.length; i++) {
         const pass = renderpasses[i];
