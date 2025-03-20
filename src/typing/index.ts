@@ -40,6 +40,8 @@ export interface renderpass {
 }
 
 export interface input {
+    // [key: `iChannel${number}`]: string;
+    guid?: string;
     channel: number;
     filepath: string;
     id: string;
@@ -52,10 +54,14 @@ export interface input {
 type inputType =
     | "texture"
     | "volume"
-    | "buffer"
     | "cubemap"
     | "video"
-    | "music";
+    | "music"
+    | "buffer"
+    | "mic"
+    | "webcam"
+    | "keyboard"
+    | "musicstream";
 
 export interface output {
     id: string;
@@ -76,6 +82,17 @@ export interface shader {
     multipass: boolean;
 }
 
-export interface renderpassData {
-    [key: string]: renderpass;
+export type renderpassData = {
+    [key in renderpassType]: renderpass;
+} & {
+    fileList: input[];
+};
+
+export enum types {
+    Texture2D,
+    Texture3D,
+    Int,
+    Float,
+    Vector,
+    Color,
 }

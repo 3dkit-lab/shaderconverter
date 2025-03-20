@@ -22,7 +22,15 @@ export const parseshadertoy = (res: shadertoy): shader => {
 export const parseRenderpass = (renderpasses: renderpass[]) => {
     const renderpass = Object.create({});
     const exportRenderpass = Object.create({});
-    let image, bufferA, bufferB, bufferC, bufferD, common, sound, cubemap;
+    let image,
+        bufferA,
+        bufferB,
+        bufferC,
+        bufferD,
+        common,
+        sound,
+        cubemap;
+    const fileList = Object.create({});
     for (let i = 0; i < renderpasses.length; i++) {
         const pass = renderpasses[i];
         const { name, type, inputs, outputs } = pass;
@@ -59,14 +67,21 @@ export const parseRenderpass = (renderpasses: renderpass[]) => {
         exportRenderpass[outputId] = false;
         for (let j = 0; j < inputs.length; j++) {
             const input = inputs[j];
-            const { id: inputId } = input;
+            const { id: inputId, type } = input;
             if (typeof exportRenderpass[inputId] !== "undefined") {
                 exportRenderpass[outputId] = true;
             }
-            // const { filter, wrap, vflip, srgb, internal } = sampler;
+            if (
+                type == "texture" ||
+                type == "volume" ||
+                type == "video" ||
+                type == "music" ||
+                type == "cubemap"
+            ) {
+                fileList[inputId] = input;
+            }
         }
     }
-    console.log(exportRenderpass);
     return Object.assign(renderpass, {
         image,
         bufferA,
@@ -76,6 +91,7 @@ export const parseRenderpass = (renderpasses: renderpass[]) => {
         common,
         sound,
         cubemap,
+        fileList,
     });
 };
 

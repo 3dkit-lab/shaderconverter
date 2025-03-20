@@ -2,7 +2,7 @@ Shader "ShaderConverter/Selfie Girl"
 	{
 
 	Properties{
-	_MainTex ("MainTex", 2D) = "white" {}
+	_Volume1Tex ("Volume1Tex", 3D) = "white" {}
 _SecondTex ("SecondTex", 2D) = "white" {}
 _ThirdTex ("ThirdTex", 2D) = "white" {}
 _FourthTex ("FourthTex", 2D) = "white" {}
@@ -36,7 +36,7 @@ _FourthTex ("FourthTex", 2D) = "white" {}
 	float2 uv:TEXCOORD0;
 	};
 
-	sampler2D _MainTex;
+	sampler3D _Volume1Tex;
 sampler2D _SecondTex;
 sampler2D _ThirdTex;
 sampler2D _FourthTex;
@@ -798,7 +798,7 @@ fixed4 mapD( in fixed3 pos, in fixed time )
     if( matID<1.5 ) // skin
     {
         // pores
-        fixed d = fbm1(_MainTex,120.0*uvw);
+        fixed d = fbm1(_Volume1Tex,120.0*uvw);
         h.x += 0.0015*d*d;
     }
     else if( matID>3.5 && matID<4.5 ) // hair
@@ -1137,7 +1137,7 @@ fixed3 renderGirl( in fixed2 p, in fixed3 ro, in fixed3 rd, in fixed tmax, in fi
         else if( tm.y<3.5 )// hoodie
         {
             sss = 0.0;
-            col = fixed3(0.81*tex2D(_MainTex,uvw*6.0).x);
+            col = fixed3(0.81*tex2D(_Volume1Tex,uvw*6.0).x);
             ks *= 2.0;
             
             // logo
