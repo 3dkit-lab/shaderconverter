@@ -7,12 +7,12 @@ export const UnityBaseShader = `Shader "ShaderConverter/{{name}}"
 
 	SubShader
 	{
-	Tags { "RenderType" = "Transparent" "Queue" = "Transparent" }
+	// Tags { "RenderType" = "Transparent" "Queue" = "Transparent" }
 
 	Pass
 	{
-	ZWrite Off
-	Blend SrcAlpha OneMinusSrcAlpha
+	// ZWrite Off
+	// Blend SrcAlpha OneMinusSrcAlpha
 
 	CGPROGRAM
 	#pragma vertex vert

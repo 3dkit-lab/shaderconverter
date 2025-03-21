@@ -96,3 +96,19 @@ export enum types {
     Vector,
     Color,
 }
+
+export interface file {
+    name: string;
+    content?: string;
+    url?: string;
+    ext?: string;
+}
+
+export interface internalFile {
+    type: string;
+    guid: string;
+    name: string;
+    url: string;
+    ext: string;
+    channel: number;
+}

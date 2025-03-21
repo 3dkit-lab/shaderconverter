@@ -1,4 +1,5 @@
-import { renderpass, input, shader, shadertoy } from "@/typing";
+import { internalFile } from "@/constant";
+import { renderpass, shader, shadertoy } from "@/typing";
 
 export const generateGuid = (): string => {
     return "xxxxxxxxxxxx4xxxyxxxxxxxxxxxxxxx"
@@ -48,22 +49,24 @@ export const parseRenderpass = (renderpasses: renderpass[]) => {
             throw new Error("unknow type!");
         }
         const [output] = outputs;
-        if (
-            typeof output === "undefined" ||
-            type === "image" ||
-            type === "common"
-        ) {
-            continue;
+        // if (
+        //     typeof output === "undefined" ||
+        //     type === "image" ||
+        //     type === "common"
+        // ) {
+        //     continue;
+        // }
+        if (output) {
+            const { id: outputId } = output;
+            exportRenderpass[outputId] = false;
         }
-
-        const { id: outputId } = output;
-        exportRenderpass[outputId] = false;
         for (let j = 0; j < inputs.length; j++) {
             const input = inputs[j];
             const { id: inputId, type } = input;
-            if (typeof exportRenderpass[inputId] !== "undefined") {
-                exportRenderpass[outputId] = true;
-            }
+            // if (typeof exportRenderpass[inputId] !== "undefined") {
+            //     exportRenderpass[outputId] = true;
+            // }
+            // console.log(inputId, type);
             if (
                 type == "texture" ||
                 type == "volume" ||
@@ -75,6 +78,7 @@ export const parseRenderpass = (renderpasses: renderpass[]) => {
             }
         }
     }
+    // console.log(fileList);
     return Object.assign(renderpass, {
         image,
         bufferA,
@@ -86,12 +90,6 @@ export const parseRenderpass = (renderpasses: renderpass[]) => {
         cubemap,
         fileList,
     });
-};
-
-export const parseInput = (input: input) => {
-    const { channel, filepath, id, previewfilepath, published, sampler, type } =
-        input;
-    return { channel, filepath, id, previewfilepath, published, sampler, type };
 };
 
 export const useCommentProtector = () => {
@@ -125,4 +123,24 @@ export const useCommentProtector = () => {
     };
 
     return { protectComments, restoreComments };
+};
+
+export const getInternalFile = (id: string) => {
+    const file = internalFile[id];
+    if (file) {
+        const { name, file: url } = file;
+        const ext = getFileExtension(url);
+        return {
+            name: `${name}.${ext}`,
+            url,
+            ext,
+        };
+    } else {
+        throw new Error("file not found!");
+    }
+};
+
+export const getFileExtension = (url: string) => {
+    const ext = url.split(".").pop();
+    return ext || "";
 };

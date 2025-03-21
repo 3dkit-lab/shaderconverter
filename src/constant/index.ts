@@ -1,4 +1,4 @@
-const texture = {
+export const internalFile: { [key: string]: { name: string; file: string } } = {
     "XdX3Rn": {
         "name": "Abstract 1",
         "file": "52d2a8f514c4fd2d9866587f4d7b2a5bfa1a11a0e772077d7682deb8b3b517e5.jpg",
@@ -16,7 +16,7 @@ const texture = {
         "file": "85a6d68622b36995ccb98a89bbb119edf167c914660e4450d313de049320005c.png",
     },
     "XsBSR3": {
-        "name": "Blue Noise ",
+        "name": "Blue Noise",
         "file": "cb49c003b454385aa9975733aff4571c62182ccdda480aaba9a8d250014f00ec.png",
     },
     "4dXGzr": {
@@ -87,9 +87,6 @@ const texture = {
         "name": "Wood",
         "file": "1f7dca9c22f324751f2a5a59c9b181dfe3b5564a04b724c657732d0bf09c99db.jpg",
     },
-};
-
-const cubemap = {
     "XsX3zn": {
         "name": "Forest",
         "file": "94284d43be78f00eb6b298e6d78656a1b34e2b91b34940d02f1ca8b22310e8a0.png",
@@ -114,9 +111,6 @@ const cubemap = {
         "name": "Uffizi Gallery Blurred",
         "file": "793a105653fbdadabdc1325ca08675e1ce48ae5f12e37973829c87bea4be3232.png",
     },
-};
-
-const volume = {
     "4sfGRr": {
         "name": "Grey Noise3D",
         "file": "27012b4eadd0c3ce12498b867058e4f717ce79e10a99568cca461682d84a4b04.bin",
@@ -125,9 +119,6 @@ const volume = {
         "name": "RGBA Noise3D",
         "file": "aea6b99da1d53055107966b59ac5444fc8bc7b3ce2d0bbb6a4a3cbae1d97f3aa.bin",
     },
-};
-
-const music = {
     "4sXGzn": {
         "name": "8 bit mentality",
         "file": "a6a1cf7a09adfed8c362492c88c30d74fb3d2f4f7ba180ba34b98556660fada1.mp3",
@@ -156,9 +147,6 @@ const music = {
         "name": "ourpithyator",
         "file": "ec8a6ea755d34600547a5353f21f0a453f9f55ff95514383b2d80b8d71283eda.mp3",
     },
-};
-
-const video = {
     "4df3zn": {
         "name": "1961 Commercial",
         "file": "3405e48f74815c7baa49133bdc835142948381fbe003ad2f12f5087715731153.ogv",
@@ -177,4 +165,16 @@ const video = {
     },
 };
 
-export { texture, cubemap, volume, music, video };
+export const texture2D = ["_MainTex", "_SecondTex", "_ThirdTex", "_FourthTex"];
+export const texture3D = [
+    "_Volume1Tex",
+    "_Volume2Tex",
+    "_Volume3Tex",
+    "_Volume4Tex",
+];
+export const textureCube = [
+    "_Cubemap1Tex",
+    "_Cubemap2Tex",
+    "_Cubemap3Tex",
+    "_Cubemap4Tex",
+];

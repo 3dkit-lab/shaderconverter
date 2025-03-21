@@ -2,6 +2,7 @@ import Handlebars from "handlebars";
 import { UnityBaseShader } from "./baseShader";
 import { input, shader, types } from "@/typing";
 import { useCommentProtector } from "@/utils";
+import { texture2D, texture3D } from "@/constant";
 
 export const toUnityShader = (name: string, shader: shader) => {
     const { protectComments, restoreComments } = useCommentProtector();
@@ -53,8 +54,9 @@ const parseProperties = (shader: string) => {
             const property = decelarateProperty(key, type);
             const { name, variableType, initialize, correspondingVariable } =
                 property;
-            properties += `${name} ("${name.replace("_", "")}", ${variableType}) = ${initialize}\n`;
-            variables += `${correspondingVariable}\n`;
+            const t = properties ? `\t` : "";
+            properties += `${t}${name} ("${name.replace("_", "")}", ${variableType}) = ${initialize}\n`;
+            variables += `${t}${correspondingVariable}\n`;
         }
     }
     return { properties, variables };
@@ -77,12 +79,12 @@ const decelarateProperty = (name: string, type: types) => {
             break;
         case types.Texture2D:
             variableType = "2D";
-            correspondingVariable = "sampler2D";
+            correspondingVariable = "uniform sampler2D";
             initialize = `"white" {}`;
             break;
         case types.Texture3D:
             variableType = "3D";
-            correspondingVariable = "sampler3D";
+            correspondingVariable = "uniform sampler3D";
             initialize = `"white" {}`;
             break;
         case types.Color:
@@ -126,9 +128,6 @@ const extractMainImage = (code: string) => {
     return content;
 };
 
-const texture2D = ["_MainTex", "_SecondTex", "_ThirdTex", "_FourthTex"];
-const texture3D = ["_Volume1Tex", "_Volume2Tex", "_Volume3Tex", "_Volume4Tex"];
-
 const updateTemplate = (text: string, inputs: input[]) => {
     Handlebars.registerHelper("regexReplace", function (text, regexMap) {
         let result = text;
@@ -151,10 +150,6 @@ const updateTemplate = (text: string, inputs: input[]) => {
             "texture": "tex2D",
             "tex2DLod": "tex2Dlod",
             "refrac": "refract",
-            // "iChannel0": "_MainTex",
-            // "iChannel1": "_SecondTex",
-            // "iChannel2": "_ThirdTex",
-            // "iChannel3": "_FourthTex",
             "iResolution.((x|y){1,2})?": "1",
             "fragCoord.xy / iResolution.xy": "i.uv",
             "fragCoord(.xy)?": "i.uv",
@@ -187,8 +182,6 @@ const updateTemplate = (text: string, inputs: input[]) => {
         const inputType = type == "volume" ? texture3D : texture2D;
         channelMap[`iChannel${channel}`] = inputType[channel];
     }
-
-    console.log(channelMap);
 
     data.regexMap = { ...data.regexMap, ...channelMap };
 
